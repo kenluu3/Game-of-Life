@@ -2,7 +2,7 @@ import pygame as pg
 from grid import Grid
 
 class GameOfLife:
-  def __init__(self, cell_size=20, screen_size=(1280, 720)):
+  def __init__(self, cell_size=10, screen_size=(1280, 720)):
     pg.init()
     
     self.__colors = {
@@ -12,11 +12,11 @@ class GameOfLife:
       'alive_inactive': (255, 0, 0),
     }
     
-    self.__fps = 5
+    self.__fps = 10
     self.__screen_size = screen_size
     self.__cell_size = cell_size
     self.__graphics = pg.display.set_mode(screen_size)
-    self.__grid = Grid(screen_size[1] // cell_size, screen_size[0] // cell_size)
+    self.__grid = Grid(screen_size[0] // cell_size, screen_size[1] // cell_size)
     self.__active = False
     
     pg.display.set_caption("Conway's Game of Life")
@@ -31,9 +31,9 @@ class GameOfLife:
     total_neighbors = 0
     
     neighboring_cells = [
-      [-1, -1], [0, -1], [1, -1]
-      [-1, 0], [1, 0]
-      [-1, 1], [0, 1], [1, 1]
+      (-1, -1), (0, -1), (1, -1),
+      (-1, 0), (1, 0),
+      (-1, 1), (0, 1), (1, 1),
     ]
     
     for neighbor_row, neighbor_col in neighboring_cells:
@@ -63,8 +63,8 @@ class GameOfLife:
   def __render(self):
     self.__graphics.fill(self.__colors['bg'])
     
-    for row in range(self.grid.rows()):
-      for col in range(self.grid.cols()):
+    for row in range(self.__grid.rows()):
+      for col in range(self.__grid.cols()):
         render_rect = (row * self.__cell_size, col * self.__cell_size, self.__cell_size - 1, self.__cell_size - 1)
         color = self.__colors['dead']
         
@@ -74,7 +74,7 @@ class GameOfLife:
           else:
             color = self.__colors['alive_inactive']
         
-        pg.draw.rect(self.__graphics, render_rect, color)
+        pg.draw.rect(self.__graphics, color, render_rect)
       
     pg.display.update()
     
