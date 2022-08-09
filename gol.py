@@ -12,6 +12,7 @@ class GameOfLife:
       'alive_inactive': (255, 0, 0),
     }
     
+    self.__fps = 5
     self.__screen_size = screen_size
     self.__cell_size = cell_size
     self.__graphics = pg.display.set_mode(screen_size)
@@ -23,7 +24,7 @@ class GameOfLife:
   def __del__(self):
     pg.quit()
   
-  def state(self):
+  def game_state(self):
     return self.__grid
 
   def __neighbors(self, row, col):
@@ -73,4 +74,31 @@ class GameOfLife:
           else:
             color = self.__colors['alive_inactive']
         
-        pg.draw.rect(self.__graphics, render_rect, color)  
+        pg.draw.rect(self.__graphics, render_rect, color)
+      
+    pg.display.update()
+    
+  def start_game(self):
+    clock = pg.time.Clock()
+    
+    running = True
+    
+    while running:
+      clock.tick(self.__fps)
+      
+      for event in pg.event.get():
+        if event.type == pg.QUIT:
+          running = not running
+        if event.type == pg.KEYDOWN:
+          if event.key == pg.K_SPACE:
+            self.__active = not self.__active
+      
+      if pg.mouse.get_pressed()[0]:
+        cell_row, cell_col = pg.mouse.get_pos()
+        self.__grid.set(cell_row // self.__cell_size, cell_col // self.__cell_size, 1)
+        
+      self.__render()
+      
+        
+          
+    
