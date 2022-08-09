@@ -8,11 +8,11 @@ class Grid:
 
   def set(self, row, col, value):
     if row >= 0 and row < self.__rows and col >= 0 and col < self.__cols:
-      self.__matrix[row, col] = value
+      self.__matrix[row][col] = value
   
   def get(self, row, col):
     if row >= 0 and row < self.__rows and col >= 0 and col < self.__cols:
-      return self.__matrix[row, col]
+      return self.__matrix[row][col]
   
   def copy(self):
     return deepcopy(self.__matrix)
