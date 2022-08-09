@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 class Grid:
   def __init__(self, rows=0, cols=0):
     self.__rows = rows
@@ -13,9 +11,6 @@ class Grid:
   def get(self, row, col):
     if row >= 0 and row < self.__rows and col >= 0 and col < self.__cols:
       return self.__matrix[row][col]
-  
-  def copy(self):
-    return deepcopy(self.__matrix)
 
   def cols(self):
     return self.__cols
